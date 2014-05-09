@@ -1,0 +1,19 @@
+{
+    "name": "Recipe Finder",
+    "description": "Given a list of items in the fridge (presented as a csv list), and a collection of recipes (a collection of JSON formatted recipes), produce a recommendation for what to cook tonight",
+    "authors": [
+        {
+            "name" : "Huck Wang",
+            "email": "huckwolf@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    },
+    "autoload": {
+        "psr-0": {"": "src/"}
+    }
+}
