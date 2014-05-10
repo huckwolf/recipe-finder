@@ -16,13 +16,12 @@ class Food
     const UNIT_TYPE_ML     = 'milliliters';
     const UNIT_TYPE_SLICES = 'slices';
 
-    protected $name;
+    protected $item;
     protected $unit;
     protected $amount;
     protected $useBy;
 
-    public function __construct($params = array())
-    {
+    public function __construct($params = array()){
         if(!empty($params)){
             foreach($params as $name => $value){
                 $method = 'set'.$name;
@@ -34,31 +33,28 @@ class Food
     }
 
     /**
-     * @param string $name
+     * @param string $item
      * @throws \InvalidArgumentException
      */
-    public function setName($name)
-    {
-        if (!is_string($name)) {
-            throw new \InvalidArgumentException('Invalid parameter input for name: ' . $name. '. Expecting string');
+    public function setItem($item){
+        if (!is_string($item)) {
+            throw new \InvalidArgumentException('Invalid parameter input for name: ' . $item. '. Expecting string');
         }
-        $this->name = (string) $name;
+        $this->item = (string) $item;
     }
 
     /**
      * @return string
      */
-    public function getName()
-    {
-        return $this->name;
+    public function getItem(){
+        return $this->item;
     }
 
     /**
      * @param string $unit
      * @throws \InvalidArgumentException
      */
-    public function setUnit($unit)
-    {
+    public function setUnit($unit){
         $const_var = 'UNIT_TYPE_'.strtoupper($unit);
         if (is_null($const_var)) {
             throw new \InvalidArgumentException('Invalid parameter input for unit: ' . $unit);
@@ -69,8 +65,7 @@ class Food
     /**
      * @return string
      */
-    public function getUnit()
-    {
+    public function getUnit(){
         return $this->unit;
     }
 
@@ -78,8 +73,7 @@ class Food
      * @param int $amount
      * @throws \InvalidArgumentException
      */
-    public function setAmount($amount)
-    {
+    public function setAmount($amount){
         if (!is_numeric($amount)) {
             throw new \InvalidArgumentException('Invalid parameter input for amount: ' . $amount. '. Expecting integer');
         }
@@ -89,8 +83,7 @@ class Food
     /**
      * @return int
      */
-    public function getAmount()
-    {
+    public function getAmount(){
         return $this->amount;
     }
 
@@ -99,10 +92,10 @@ class Food
      * @throws \InvalidArgumentException
      * @internal param int $useBy
      */
-    public function setUseBy($useBy)
-    {
-        if (!is_numeric($useBy)) {
-            throw new \InvalidArgumentException('Invalid parameter input for use-by: ' . $useBy. '. Expecting timestamp');
+    public function setUseBy($useBy){
+        $date = explode('/', $useBy);
+        if (!checkdate($date[1], $date[0], $date[2])) {
+            throw new \InvalidArgumentException('Invalid parameter input for use-by: ' . $useBy. '. Expecting timestamp by using format (dd/mm/yy)');
         }
         $this->useBy = $useBy;
     }
@@ -110,8 +103,7 @@ class Food
     /**
      * @return int $useBy
      */
-    public function getUseBy()
-    {
+    public function getUseBy(){
         return $this->useBy;
     }
 

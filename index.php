@@ -8,6 +8,13 @@
  */
 
 // define time zone and set it to Sydney time zone, this is for checking food used-by.
+require('autoload.php');
+
 date_default_timezone_set('Australia/Sydney');
 
-echo "Result";
+$rawFood = new RecipeFinder\RecipeFinder($argv[1], file_get_contents($argv[2]));
+$result  = $rawFood->findBestMatchFoodForTonight();
+
+print_r($result);
+echo "\n";
+//echo $result."\n";

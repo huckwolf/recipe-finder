@@ -11,33 +11,48 @@ namespace Fridge;
 
 use Food\Food as Food;
 
-class Fridge
-{
+class Fridge{
 
     protected $food;
 
-    public function __construct(Food $food)
-    {
+    public function __construct($food = array()){
         $this->food = $food;
     }
 
+    public function getFoodList(){
+        return $this->food;
+    }
+
     public function getDish($ingredients){
-
-        //get all the dish for tonight;
         $dishes = $this->checkFoodInFridge($ingredients);
-
         return $dishes;
     }
 
-    private function checkFoodInFridge($requestFood){
+    private function checkFoodInFridge($ingredients){
 
-        //it has request food
-
-        //it has sufficient amount of request food
-
-        //it has not passed use-by date of the request food
-
-        return true;
+        $foodCount = count($ingredients);
+        if($foodCount > 0){
+            $take = 0;
+            foreach($ingredients as $ingredient){
+                foreach($this->food as $food){
+                    // check if the food is qualified
+                    if($food->getItem() == $ingredient->getItem()
+                        && $food->getAmount() >= $ingredient->getAmount()
+                        && $food->getUnit() == $ingredient->getUnit()
+                        && strtotime(str_replace('/', '-', $food->getUseBy())) > time()
+                    ){
+                        $take++;
+                    }
+                }
+            }
+            if($foodCount == $take){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 
 

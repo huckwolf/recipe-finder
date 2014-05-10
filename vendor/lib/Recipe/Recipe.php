@@ -33,8 +33,7 @@ class Recipe{
     /**
      * @param array $ingredients
      */
-    public function setIngredients($ingredients)
-    {
+    public function setIngredients($ingredients){
         foreach($ingredients as $ingredient) {
             $this->ingredients[] = new Food($ingredient);
         }
@@ -43,24 +42,21 @@ class Recipe{
     /**
      * @return Food
      */
-    public function getIngredients()
-    {
+    public function getIngredients(){
         return $this->ingredients;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name)
-    {
+    public function setName($name){
         $this->name = $name;
     }
 
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName(){
         return $this->name;
     }
 
