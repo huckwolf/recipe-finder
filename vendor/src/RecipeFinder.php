@@ -36,12 +36,14 @@ class RecipeFinder{
         $putFoodInFridge = array();
         if(($handle = fopen($fridge, 'r')) !== false) {
             while(($data = fgetcsv($handle, 1000, ',')) !== false) {
-                $putFoodInFridge[] = new Food(array(
-                    'item'      => $data[0],
-                    'amount'    => $data[1],
-                    'unit'      => $data[2],
-                    'useBy'     => $data[3],
-                ));
+                if(isset($data[0]) && isset($data[1]) && isset($data[2]) && isset($data[3])){
+                    $putFoodInFridge[] = new Food(array(
+                        'item'      => $data[0],
+                        'amount'    => $data[1],
+                        'unit'      => $data[2],
+                        'useBy'     => $data[3],
+                    ));
+                }
             }
         }
         $fridgeFood = new Fridge($putFoodInFridge);
@@ -61,12 +63,16 @@ class RecipeFinder{
 
     public function findBestMatchFoodForTonight(){
         $result = array();
+
+        //get all the valid food
         foreach($this->recipe as $recipe){
-            if($this->fridge->getDish($recipe->getIngredients())){
-                $result[] = $recipe->getName();
+            $getIngredients = $this->fridge->getDish($recipe->getIngredients());
+            if($getIngredients){
+                $result[$getIngredients] = $recipe->getName();
             }
         }
-        return (count($result))?$result:"Order Takeout";
+        ksort($result);
+        return (count($result)) ? array_shift(array_values($result)):"Order Takeout";
     }
 
 }

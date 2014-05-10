@@ -32,7 +32,8 @@ class Fridge{
 
         $foodCount = count($ingredients);
         if($foodCount > 0){
-            $take = 0;
+            $take  = 0;
+            $useBy = array();
             foreach($ingredients as $ingredient){
                 foreach($this->food as $food){
                     // check if the food is qualified
@@ -42,11 +43,13 @@ class Fridge{
                         && strtotime(str_replace('/', '-', $food->getUseBy())) > time()
                     ){
                         $take++;
+                        $useBy[] = strtotime(str_replace('/', '-', $food->getUseBy()));
                     }
                 }
             }
             if($foodCount == $take){
-                return true;
+                sort($useBy);
+                return $useBy[0];
             }else{
                 return false;
             }
@@ -54,6 +57,4 @@ class Fridge{
             return false;
         }
     }
-
-
 }
