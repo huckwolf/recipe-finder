@@ -9,25 +9,37 @@
 
 namespace Fridge;
 
-use Food\Food as Food;
-
 class Fridge{
 
     protected $food;
 
+    /**
+     * @param array $food
+     */
     public function __construct($food = array()){
         $this->food = $food;
     }
 
+    /**
+     * @return array
+     */
     public function getFoodList(){
         return $this->food;
     }
 
+    /**
+     * @param $ingredients
+     * @return bool
+     */
     public function getDish($ingredients){
         $dishes = $this->checkFoodInFridge($ingredients);
         return $dishes;
     }
 
+    /**
+     * @param $ingredients
+     * @return bool
+     */
     private function checkFoodInFridge($ingredients){
 
         $foodCount = count($ingredients);

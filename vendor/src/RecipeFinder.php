@@ -19,6 +19,10 @@ class RecipeFinder{
     protected $recipe;
     protected $fridgeFood;
 
+    /**
+     * @param null $fridge
+     * @param null $recipes
+     */
     public function __construct($fridge = null, $recipes = null){
         if (!empty($fridge)) {
             // load fridge
@@ -32,6 +36,10 @@ class RecipeFinder{
         $this->findBestMatchFoodForTonight();
     }
 
+    /**
+     * @param $fridge
+     * @return \Fridge\Fridge
+     */
     public function loadFoodFromFiles($fridge){
         $putFoodInFridge = array();
         if(($handle = fopen($fridge, 'r')) !== false) {
@@ -50,6 +58,11 @@ class RecipeFinder{
         return $fridgeFood;
     }
 
+    /**
+     * @param $inputRecipes
+     * @return array
+     * @throws \InvalidArgumentException
+     */
     public function loadRecipeFromJson($inputRecipes){
         $buffer = array();
         if (($recipes = json_decode($inputRecipes, true)) === false) {
@@ -61,6 +74,9 @@ class RecipeFinder{
         return $buffer;
     }
 
+    /**
+     * @return mixed|string
+     */
     public function findBestMatchFoodForTonight(){
         $result = array();
 
