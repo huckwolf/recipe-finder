@@ -9,23 +9,28 @@
 
 namespace Food;
 
-class FoodItem
+class Food
 {
-    const UNIT_OF     = 'of';
-    const UNIT_GRAMS  = 'grams';
-    const UNIT_ML     = 'milliliters';
-    const UNIT_SLICES = 'slices';
+    const UNIT_TYPE_OF     = 'of';
+    const UNIT_TYPE_GRAMS  = 'grams';
+    const UNIT_TYPE_ML     = 'milliliters';
+    const UNIT_TYPE_SLICES = 'slices';
 
     protected $name;
     protected $unit;
     protected $amount;
-    protected $date;
-
-    private static $unitTypes = array();
+    protected $useBy;
 
     public function __construct($params = array())
     {
-
+        if(!empty($params)){
+            foreach($params as $name => $value){
+                $method = 'set'.$name;
+                if(method_exists($this, $method)){
+                    $this->$method($value);
+                }
+            }
+        }
     }
 
     /**
@@ -49,13 +54,14 @@ class FoodItem
     }
 
     /**
-     * @param $unit
+     * @param string $unit
      * @throws \InvalidArgumentException
      */
     public function setUnit($unit)
     {
-        if (!in_array($unit, self::$unitTypes)) {
-            throw new \InvalidArgumentException('Invalid parameter passed for unit: ' . $unit . '. Allowed values are '.implode(', ', self::$unitTypes));
+        $const_var = 'UNIT_TYPE_'.strtoupper($unit);
+        if (is_null($const_var)) {
+            throw new \InvalidArgumentException('Invalid parameter input for unit: ' . $unit);
         }
         $this->unit = $unit;
     }
@@ -86,6 +92,27 @@ class FoodItem
     public function getAmount()
     {
         return $this->amount;
+    }
+
+    /**
+     * @param $useBy
+     * @throws \InvalidArgumentException
+     * @internal param int $useBy
+     */
+    public function setUseBy($useBy)
+    {
+        if (!is_numeric($useBy)) {
+            throw new \InvalidArgumentException('Invalid parameter input for use-by: ' . $useBy. '. Expecting timestamp');
+        }
+        $this->useBy = $useBy;
+    }
+
+    /**
+     * @return int $useBy
+     */
+    public function getUseBy()
+    {
+        return $this->useBy;
     }
 
 }
