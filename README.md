@@ -30,3 +30,5 @@ If you have running PHPUnit, you can run the following command to test
 ```
 phpunit -c phpunit.xml.dist
 ```
+
+There are 3 errors to show the validation of input which is expected after unit test run.
