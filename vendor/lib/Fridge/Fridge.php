@@ -9,6 +9,7 @@
 
 namespace Fridge;
 
+
 class Fridge{
 
     protected $food;

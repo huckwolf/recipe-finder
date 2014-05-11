@@ -20,8 +20,13 @@ class Food
     protected $unit;
     protected $amount;
     protected $useBy;
+    protected $unit_type = array(self::UNIT_TYPE_OF, self::UNIT_TYPE_GRAMS, self::UNIT_TYPE_ML, self::UNIT_TYPE_SLICES);
 
+    /**
+     * @param array $params
+     */
     public function __construct($params = array()){
+        //init the object
         if(!empty($params)){
             foreach($params as $name => $value){
                 $method = 'set'.$name;
@@ -55,8 +60,7 @@ class Food
      * @throws \InvalidArgumentException
      */
     public function setUnit($unit){
-        $const_var = 'UNIT_TYPE_'.strtoupper($unit);
-        if (is_null($const_var)) {
+        if (!in_array($unit, $this->unit_type)) {
             throw new \InvalidArgumentException('Invalid parameter input for unit: ' . $unit);
         }
         $this->unit = $unit;
@@ -94,7 +98,7 @@ class Food
      */
     public function setUseBy($useBy){
         $date = explode('/', $useBy);
-        if (!checkdate($date[1], $date[0], $date[2])) {
+        if ((!isset($date[1])) || (!isset($date[2])) || !checkdate($date[1], $date[0], $date[2])) {
             throw new \InvalidArgumentException('Invalid parameter input for use-by: ' . $useBy. '. Expecting timestamp by using format (dd/mm/yy)');
         }
         $this->useBy = $useBy;
@@ -106,5 +110,4 @@ class Food
     public function getUseBy(){
         return $this->useBy;
     }
-
 }

@@ -15,6 +15,4 @@ date_default_timezone_set('Australia/Sydney');
 $rawFood = new RecipeFinder\RecipeFinder($argv[1], file_get_contents($argv[2]));
 $result  = $rawFood->findBestMatchFoodForTonight();
 
-print_r($result);
-echo "\n";
-//echo $result."\n";
+echo $result."\n";
