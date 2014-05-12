@@ -13,7 +13,7 @@ class Food
 {
     const UNIT_TYPE_OF     = 'of';
     const UNIT_TYPE_GRAMS  = 'grams';
-    const UNIT_TYPE_ML     = 'milliliters';
+    const UNIT_TYPE_ML     = 'ml';
     const UNIT_TYPE_SLICES = 'slices';
 
     protected $item;
